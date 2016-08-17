@@ -6,6 +6,7 @@ from optparse import OptionParser
 parser = OptionParser()
 parser.add_option("-p", "--pokemon-name", help="list pokemon name, or dex number", dest="pokemon_name")
 parser.add_option("-t", "--type-only", help="list only the searched pokemon's type, only works with -p", dest="type_only", action="store_true")
+parser.add_option("-m", "--moves-only", help="list only the searched pokemon's type, only works with -p", dest="moves_only", action="store_true")
 (options, args) = parser.parse_args()
 
 #print (options, args)
@@ -28,10 +29,11 @@ def pokemon_name(search, options):
 	for i in range(0, len(json_out['types'])):
 		element_types.append(str(json_out['types'][i]['type']['name']))
 	element_string = ', '.join(map(str, element_types))
-	moves_pretty = ', '.join(map(str, moves_learned))
+	moves_pretty = '\n'.join(map(str, moves_learned))
 	if options.type_only is True:
 		print element_string
+	if options.moves_only is True:
+		print moves_pretty
 	else:
 		print "Pokemon Name: {} \nPokedex Number: {}\nSprite URL: {}\nElement Types: {}\nMoves Able To Be Learned: {}".format(name, pokedex_id, sprite_url, element_string, moves_pretty)
 
-pokemon_name(options.pokemon_name, options)
